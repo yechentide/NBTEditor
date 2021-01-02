@@ -2,14 +2,20 @@ import XCTest
 @testable import NBTEditor
 
 final class NBTEditorTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(NBTEditor().text, "Hello, World!")
-    }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testDataIteratorExtension", testDataIteratorExtension),
     ]
+    
+    func testDataIteratorExtension() {
+        let keyword = "helloWorld"
+        let data = Data( Array(keyword.utf8) )
+        var iterator = data.makeIterator()
+        let utf8Data = iterator.next(count: keyword.count)
+        if let d = utf8Data {
+            XCTAssertEqual(keyword, String(data: d, encoding: .utf8)!)
+        } else {
+            XCTFail()
+        }
+    }
 }
