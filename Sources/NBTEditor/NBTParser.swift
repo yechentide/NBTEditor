@@ -2,12 +2,16 @@ import Foundation
 
 
 public class NBTParser {
-    let nbtData: Data
-    var iterator: Data.Iterator
+    private let nbtData: Data
+    private var iterator: Data.Iterator
     
     public init(data: Data) {
         self.nbtData = data
         self.iterator = self.nbtData.makeIterator()
+    }
+    
+    public func skip(count: Int) {
+        let _ = iterator.next(count: count)
     }
     
     public func getHeader() throws -> (version:Int, fileSize: Int) {

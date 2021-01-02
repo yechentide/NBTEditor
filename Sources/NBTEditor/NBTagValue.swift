@@ -1,6 +1,22 @@
 import Foundation
 
 
+
+extension Data.Iterator {
+    public mutating func next(count: Int) -> Data? {
+        var byteArray = [UInt8]()
+        for _ in 1...count {
+            guard let byte = next() else {
+                return nil
+            }
+            byteArray.append(byte)
+        }
+        return Data(byteArray)
+    }
+}
+
+
+
 public protocol NamedBinaryTagValue {
     init(iterator nbtDataIterator: inout Data.Iterator) throws
 }
@@ -62,6 +78,7 @@ extension String: NamedBinaryTagValue {
         let payloadLength = try Int16(iterator: &nbtDataIterator)
         if payloadLength == 0 {
             self.init("")
+            return
         }
         
         let data = nbtDataIterator.next(count: Int(payloadLength))
