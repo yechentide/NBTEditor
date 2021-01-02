@@ -74,8 +74,8 @@ extension Float64: NamedBinaryTagValue {
 // TAG_String
 extension String: NamedBinaryTagValue {
     public init(iterator nbtDataIterator: inout Data.Iterator) throws {
-        // payload of StringTag's length is 2 bytes --> Int16
-        let payloadLength = try Int16(iterator: &nbtDataIterator)
+        // payload of StringTag's length is 2 bytes(unsigned) --> UInt16
+        let payloadLength = try UInt16(iterator: &nbtDataIterator)
         if payloadLength == 0 {
             self.init("")
             return
