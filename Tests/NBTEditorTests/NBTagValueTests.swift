@@ -1,6 +1,22 @@
 import XCTest
+@testable import NBTEditor
 
 class NBTagValueTests: XCTestCase {
+    
+    static var allTests = [
+        ("testTagValueByte", testTagValueByte),
+        ("testTagValueShort", testTagValueShort),
+        ("testTagValueInt", testTagValueInt),
+        ("testTagValueLong", testTagValueLong),
+        ("testTagValueFloat", testTagValueFloat),
+        ("testTagValueDouble", testTagValueDouble),
+        ("testTagValueByteArray", testTagValueByteArray),
+        ("testTagValueString", testTagValueString),
+        ("testTagValueList", testTagValueList),
+        ("testTagValueIntArray", testTagValueIntArray),
+        ("testTagValueLongArray", testTagValueLongArray)
+    ]
+    
     func testTagValueByte() {
         do{
             for number in [Int8.min, Int8.min/2, 0, Int8.max/2, Int8.max] {
@@ -84,6 +100,18 @@ class NBTagValueTests: XCTestCase {
         }
     }
     
+    func testTagValueByteArray() {
+        do {
+            let data = Data([0x0A, 0x00, 0x00, 0x00,
+                             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A])
+            var it = data.makeIterator()
+            let result = try [Int8](iterator: &it)
+            XCTAssertEqual([1,2,3,4,5,6,7,8,9,10], result)
+        } catch {
+            XCTFail()
+        }
+    }
+    
     func testTagValueString() {
         do {
             var data = Data([0x0A, 0x00, 0x44, 0x69, 0x66, 0x66, 0x69, 0x63, 0x75, 0x6C, 0x74, 0x79])
@@ -105,13 +133,16 @@ class NBTagValueTests: XCTestCase {
         }
     }
     
-    func testTagValueByteArray() {
+    func testTagValueList() {
         do {
-            let data = Data([0x0A, 0x00, 0x00, 0x00,
-                             0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A])
+            let data = Data([0x03, 0x00, 0x00, 0x00,
+                             0x0A, 0x00, 0x44, 0x69, 0x66, 0x66, 0x69, 0x63, 0x75, 0x6C, 0x74, 0x79,
+                             0x0F, 0x00, 0x46, 0x6C, 0x61, 0x74, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x4C, 0x61, 0x79, 0x65, 0x72, 0x73,
+                             0x0D, 0x00, 0x46, 0x6F, 0x72, 0x63, 0x65, 0x47, 0x61, 0x6D, 0x65, 0x54, 0x79, 0x70, 0x65])
             var it = data.makeIterator()
-            let result = try [Int8](iterator: &it)
-            XCTAssertEqual([1,2,3,4,5,6,7,8,9,10], result)
+            let result = try [String](iterator: &it)
+            //XCTAssertEqual(["Difficulty", "FlatWorldLayers", "ForceGameType"], result)
+            print(result)
         } catch {
             XCTFail()
         }
@@ -145,18 +176,4 @@ class NBTagValueTests: XCTestCase {
         }
     }
     
-    func testTagValueList() {
-        do {
-            let data = Data([0x03, 0x00, 0x00, 0x00,
-                             0x0A, 0x00, 0x44, 0x69, 0x66, 0x66, 0x69, 0x63, 0x75, 0x6C, 0x74, 0x79,
-                             0x0F, 0x00, 0x46, 0x6C, 0x61, 0x74, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x4C, 0x61, 0x79, 0x65, 0x72, 0x73,
-                             0x0D, 0x00, 0x46, 0x6F, 0x72, 0x63, 0x65, 0x47, 0x61, 0x6D, 0x65, 0x54, 0x79, 0x70, 0x65])
-            var it = data.makeIterator()
-            let result = try [String](iterator: &it)
-            //XCTAssertEqual(["Difficulty", "FlatWorldLayers", "ForceGameType"], result)
-            print(result)
-        } catch {
-            XCTFail()
-        }
-    }
 }
