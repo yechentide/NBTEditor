@@ -83,15 +83,10 @@ extension Array: NamedBinaryTagValue where Element: NamedBinaryTagValue {
         
         try self.init(unsafeUninitializedCapacity: elemCount) { buffer, count in
             for i in 0..<elemCount {
-                print(Element.self)
                 buffer[i] = try Element.init(iterator: &nbtDataIterator)
             }
             count = elemCount
         }
     }
 }
-
-
-
-// TAG_Compound, TAG_End
 
