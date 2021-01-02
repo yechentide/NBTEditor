@@ -19,19 +19,27 @@ open class NBTag {
 }
 
 extension NBTag {
-    public func add(tag: NBTag) {
-        if let _ = childrenTags {
-            childrenTags!.append(tag)
+    public func getChildrenTagsCount() -> Int {
+        if childrenTags == nil {
+            return -1
         } else {
+            return childrenTags!.count
+        }
+    }
+}
+
+extension NBTag {
+    public func add(tag: NBTag) {
+        if childrenTags == nil {
             childrenTags = [NBTag]()
         }
+        childrenTags!.append(tag)
     }
     
     public func add(tags: [NBTag]) {
-        if let _ = childrenTags {
-            childrenTags!.append(contentsOf: tags)
-        } else {
+        if childrenTags == nil {
             childrenTags = [NBTag]()
         }
+        childrenTags!.append(contentsOf: tags)
     }
 }
