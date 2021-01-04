@@ -28,7 +28,7 @@ public class NBTParser {
         return try String(iterator: &iterator)
     }
     
-    // MARK: Todo: find a solution to parse a List Tag
+    // MARK: Todo: find a better solution to parse a List Tag
     public func getTagValue(tagType: NBTagType) throws -> NamedBinaryTagValue? {
         switch tagType {
         case .Byte:
@@ -48,12 +48,8 @@ public class NBTParser {
         case .String:
             return try String(iterator: &iterator)
         case .List:
-            skip(count: 25)
-            print("\n======")
-            print("skip a List Tag")
-            print("======\n")
-            return nil
-            // fatalError("Unimplemented : TAG_List")
+            let elemType = getTagType()
+            return try getListTagValue(elemType: elemType)
         case .IntArray:
             return try [Int32](iterator: &iterator)
         case .LongArray:
@@ -62,6 +58,29 @@ public class NBTParser {
             return nil
         }
     }
+    
+    // MARK: Todo: find a better solution to parse a List Tag
+    private func getListTagValue(elemType: NBTagType) throws -> NamedBinaryTagValue? {
+        switch elemType {
+        case .Byte:
+            return try [Int8](iterator: &iterator)
+        case .Short:
+            return try [Int16](iterator: &iterator)
+        case .Int:
+            return try [Int32](iterator: &iterator)
+        case .Long:
+            return try [Int64](iterator: &iterator)
+        case .Float:
+            return try [Float32](iterator: &iterator)
+        case .Double:
+            return try [Float64](iterator: &iterator)
+        case .String:
+            return try [String](iterator: &iterator)
+        default:
+            return nil
+        }
+    }
+    
     
     public func getTag() throws -> NBTag {
         let tagType = getTagType()
