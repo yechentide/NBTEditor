@@ -1,7 +1,7 @@
 import XCTest
 @testable import NBTEditor
 
-class NBTagValueTests: XCTestCase {
+final class NBTagValueTests: XCTestCase {
     
     static var allTests = [
         // Integer number

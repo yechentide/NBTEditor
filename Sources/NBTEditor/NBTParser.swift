@@ -14,14 +14,14 @@ public class NBTParser {
         let _ = iterator.next(count: count)
     }
     
-    public func getHeader() throws -> (version:Int, fileSize: Int) {
+    public func getHeader() throws -> (version:Int32, dataSize: Int32) {
         let version = try Int32(iterator: &iterator)
-        let fileSize = try Int32(iterator: &iterator)
-        return (Int(version), Int(fileSize)+8)
+        let dataSize = try Int32(iterator: &iterator)
+        return (version, dataSize)
     }
     
     public func getTagType() -> NBTagType {
-        return NBTagType(rawValue: Int(iterator.next()!))!
+        return NBTagType(rawValue: Int8(iterator.next()!))!
     }
     
     public func getTagName() throws -> String {

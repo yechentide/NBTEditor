@@ -92,6 +92,9 @@ extension Float64: NamedBinaryTagValue {
 extension String: NamedBinaryTagValue {
     
     public var nbtData: Data {
+        if self.count == 0 {
+            return Data([0x00, 0x00])
+        }
         let payload = UInt16(self.count).nbtData
         let strData = self.data(using: .utf8)!
         return payload + strData
@@ -134,7 +137,6 @@ extension Array: NamedBinaryTagValue where Element: NamedBinaryTagValue {
         
         try self.init(unsafeUninitializedCapacity: elemCount) { buffer, count in
             for i in 0..<elemCount {
-                print("===> i=", i)
                 buffer[i] = try Element.init(iterator: &nbtDataIterator)
             }
             count = elemCount

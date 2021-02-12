@@ -1,4 +1,6 @@
-public enum NBTagType: Int {
+import Foundation
+
+public enum NBTagType: Int8 {
     case End
     case Byte
     case Short
@@ -12,6 +14,10 @@ public enum NBTagType: Int {
     case Compound
     case IntArray
     case LongArray
+    
+    var nbtData: Data {
+        return self.rawValue.nbtData
+    }
 }
 
 public enum NBTError: Error {
