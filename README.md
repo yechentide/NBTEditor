@@ -21,7 +21,7 @@ do {
     print(rootTag.childrenTags?.count ?? "no children")
     
 } catch {
-	print(error)
+    print(error)
 }
 ```
 
