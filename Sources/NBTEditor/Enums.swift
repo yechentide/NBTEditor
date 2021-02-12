@@ -15,5 +15,6 @@ public enum NBTagType: Int {
 }
 
 public enum NBTError: Error {
+    case endOfNBTData
     case wrongPayloadLength
 }
